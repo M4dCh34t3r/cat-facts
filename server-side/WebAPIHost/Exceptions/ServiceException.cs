@@ -1,6 +1,6 @@
 ﻿using System.Net;
-using Shared.Utils;
 using Microsoft.AspNetCore.Mvc;
+using Shared.Utils;
 using WebAPIHost.DTOs;
 using WebAPIHost.Enum;
 

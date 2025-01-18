@@ -46,9 +46,5 @@ public class UpsertRepository(AppDbContext context) : IUpsertRepository
     }
 
     private static IEnumerable<Fact> TransformFact(PublicFact publicFact, string requestURI) =>
-        publicFact.Data.Select(d => new Fact
-        {
-            Source = requestURI,
-            Text = d.Trim(),
-        });
+        publicFact.Data.Select(d => new Fact { Source = requestURI, Text = d.Trim() });
 }

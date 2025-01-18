@@ -1,8 +1,8 @@
-﻿using Shared.Utils;
-using Core.Domain.Entities;
+﻿using Core.Domain.Entities;
 using Hangfire;
 using Infrastructure.Repositories;
 using Microsoft.Extensions.Configuration;
+using Shared.Utils;
 
 namespace BackgroundJobs;
 

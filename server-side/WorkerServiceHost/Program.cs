@@ -1,16 +1,12 @@
 using BackgroundJobs;
-using Shared.Utils;
 using Hangfire;
 using Infrastructure.Context;
 using Infrastructure.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
+using Shared.Utils;
 
-string[] settingKeysToCheck =
-[
-    "ConnectionStrings:MSSQL",
-    "Misc:PublicAPIRequestUri",
-];
+string[] settingKeysToCheck = ["ConnectionStrings:MSSQL", "Misc:PublicAPIRequestUri"];
 WebApplication app = BuildWebApp(args);
 using (var scope = app.Services.CreateScope())
 {
