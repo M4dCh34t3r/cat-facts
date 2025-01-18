@@ -1,31 +1,69 @@
+using System.Text.Json.Serialization;
 using Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
+using Shared.Utils;
+using WebAPIHost.Services;
 
-var builder = WebApplication.CreateBuilder(args);
+string[] settingKeysToCheck = ["ConnectionStrings:MSSQL", "Misc:PageSize"];
+WebApplication app = BuildWebApp(args);
 
-builder.Services.AddDbContext<AppDbContext>(o =>
-    o.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL"))
-);
-// Add services to the container.
+StartupUtil.RunApp(app, settingKeysToCheck);
 
-builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+static void AddServices(WebApplicationBuilder builder)
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    builder
+        .Services.AddControllers()
+        .AddJsonOptions(o =>
+        {
+            o.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+            o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("MSSQL"))
+    );
+
+    builder.Services.AddEndpointsApiExplorer();
+
+    builder.Services.AddScoped<IFactService, FactService>();
 }
 
-app.UseHttpsRedirection();
+static void AddSwagger(WebApplicationBuilder builder) =>
+    builder.Services.AddSwaggerGen(o =>
+    {
+        o.SwaggerDoc("v1", new() { Title = "Assessment API - V1", Version = "v1" });
 
-app.UseAuthorization();
+        string[] xmlFilePaths = [$"WebAPIHost.xml", "Core.Application.xml"];
+        foreach (var xmlFilePath in xmlFilePaths)
+        {
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFilePath);
+            if (File.Exists(xmlPath))
+                o.IncludeXmlComments(xmlPath);
+        }
+    });
 
-app.MapControllers();
+static WebApplication BuildWebApp(string[] args)
+{
+    WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-app.Run();
+    StartupUtil.AddSerilog(builder);
+    StartupUtil.AddSentry(builder);
+
+    AddServices(builder);
+
+    if (builder.Environment.IsDevelopment())
+        AddSwagger(builder);
+
+    WebApplication app = builder.Build();
+    if (app.Environment.IsDevelopment())
+    {
+        app.UseSwaggerUI();
+        app.UseSwagger();
+    }
+    else
+    {
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
+    }
+    app.MapControllers();
+    return app;
+}
