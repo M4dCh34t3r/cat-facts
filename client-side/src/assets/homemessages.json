@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Welcome to Cat Facts!",
+    "text": "Your ultimate source for fascinating feline trivia."
+  },
+  {
+    "id": 2,
+    "title": "Fresh Facts, Hourly!",
+    "text": "Did you know? A new cat fact appears every hour to keep you intrigued!"
+  },
+  {
+    "id": 3,
+    "title": "Organize Your Favorites",
+    "text": "Sort facts your way... alphabetically, by likes, insertion time and etc."
+  },
+  {
+    "id": 4,
+    "title": "Ready to Dive In?",
+    "text": "Explore, sort, and share cat facts right here, right now!"
+  }
+]
