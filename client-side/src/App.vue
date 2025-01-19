@@ -4,8 +4,10 @@ import { computed, onBeforeUnmount, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useConfigStore } from './stores/config';
 import OverlayStoreDialogs from './components/misc/OverlayStoreDialogs.vue';
+import ApbDesktop from './components/appBars/ApbDesktop.vue';
+import ApbMobile from './components/appBars/ApbMobile.vue';
 
-const { inDarkMode, inMobileMode } = storeToRefs(useConfigStore());
+const { inDarkMode, inMobileMode, showAppBar } = storeToRefs(useConfigStore());
 
 const appTheme = computed(() => (inDarkMode.value ? 'defaultDark' : 'defaultLight'));
 
@@ -30,6 +32,13 @@ onMounted(
 <template>
   <v-app :theme="appTheme">
     <v-main>
+      <v-fade-transition>
+        <template v-if="showAppBar">
+          <ApbMobile v-if="inMobileMode" />
+          <ApbDesktop v-else />
+        </template>
+      </v-fade-transition>
+
       <OverlayStoreDialogs />
 
       <router-view v-slot="{ Component }">
