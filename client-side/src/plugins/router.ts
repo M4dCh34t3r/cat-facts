@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
 import HomeView from '@/views/HomeView.vue';
+import FactsView from '@/views/FactsView.vue';
 
 const routes = [
   {
@@ -9,6 +10,14 @@ const routes = [
     component: HomeView,
     meta: {
       title: 'Home page'
+    }
+  },
+  {
+    path: '/Facts',
+    name: 'Facts',
+    component: FactsView,
+    meta: {
+      title: 'Facts page'
     }
   }
 ];

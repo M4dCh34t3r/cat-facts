@@ -36,6 +36,6 @@ const { inDarkMode } = storeToRefs(useConfigStore());
         v-model="inDarkMode"
       />
     </v-card>
-    <v-btn text="check facts" class="px-16" color="info" disabled />
+    <v-btn text="check facts" class="px-16" color="info" to="/Facts"/>
   </div>
 </template>
