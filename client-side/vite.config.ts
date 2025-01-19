@@ -15,4 +15,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
+  server: {
+    strictPort: true,
+    port: 5173,
+    proxy: {
+      '/Api': {
+        secure: false,
+        changeOrigin: true,
+        target: 'https://localhost:7025'
+      }
+    }
+  }
 })
