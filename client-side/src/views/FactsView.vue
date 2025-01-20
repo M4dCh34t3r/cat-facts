@@ -9,7 +9,7 @@ import { HttpStatusCode, type AxiosInstance } from 'axios';
 import { assertType } from '@/helpers/typeAssertHelper';
 import BtnLike from '@/components/buttons/BtnLike.vue';
 import BtnDislike from '@/components/buttons/BtnDislike.vue';
-import { localRef } from '@/utils/refUtil';
+import { useLocalStorageRef } from '@/utils/refUtil';
 
 const acpOrderItems = enumToObject(FactOrder);
 /// GUARANTEE: the 'axios' dependency is provided by the axios plugin
@@ -17,8 +17,8 @@ const axios = inject<AxiosInstance>('axios')!;
 
 const { showAppBar } = storeToRefs(useConfigStore());
 
-const acpOrder = localRef<FactOrder>('acp-order', FactOrder.Alphabetical);
-const ckbDescending = localRef<boolean>('ckb-descending,order', false);
+const acpOrder = useLocalStorageRef<FactOrder>('acp-order', FactOrder.Alphabetical);
+const ckbDescending = useLocalStorageRef<boolean>('ckb-descending,order', false);
 const jsonApiFacts = ref<Paginated<APIFact>>();
 const pgnApiFacts = ref<number>(1);
 const sklApiFactsIf = ref<boolean>(false);

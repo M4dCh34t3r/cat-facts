@@ -1,68 +1,64 @@
 import { customRef, type Ref } from 'vue';
 
 /**
- * Creates a custom Vue `ref` synchronized with `localStorage`.
+ * Generates a custom Vue `ref` that reads and writes data to `localStorage`, enabling persistent reactive state across page reloads.
  *
- * @summary This function generates a custom Vue `ref` that reads and writes
- * data to `localStorage`, allowing reactive state to persist across page reloads.
- *
+ * @template T - The type of the value stored in the ref.
  * @param key - The key under which the value will be stored in `localStorage`.
- * @param value - The default value to return if no entry is found in `localStorage`.
- * @returns {Ref<T>} A Vue `ref` object synchronized with `localStorage`.
+ * @param defaultValue - The default value to return if no entry is found in `localStorage`.
+ * @returns A Vue `ref` object synchronized with `localStorage`.
  *
  * @example
- * // Create a ref synchronized with localStorage
- * const username = localRef<string>('username', 'Guest');
- * // Reading the value (reactive)
- * console.log(username.value); // 'Guest' (or the saved value in localStorage)
+ * const username = useLocalStorageRef<string>('username', 'Guest');
+ * // Accessing the value (reactive)
+ * console.log(username.value);
  * // Updating the value
- * username.value = 'Alice'; // Saves 'Alice' to localStorage under the key 'username'
+ * username.value = 'Alice';
  * // Removing the value
- * username.value = undefined; // Removes the key 'username' from localStorage
+ * username.value = undefined;
  */
-export function localRef<T = undefined>(key: string, value?: T): Ref<T> {
+export function useLocalStorageRef<T = undefined>(key: string, defaultValue?: T): Ref<T> {
   return customRef<T>((track, trigger) => ({
     get: () => {
       track();
-      const val = localStorage.getItem(key);
-      return val ? JSON.parse(val) : value;
+      const storedValue = localStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : defaultValue;
     },
-    set: (val) => {
-      val ? localStorage.setItem(key, JSON.stringify(val)) : localStorage.removeItem(key);
+    set: (newValue) => {
+      if (newValue === undefined) localStorage.removeItem(key);
+      else localStorage.setItem(key, JSON.stringify(newValue));
       trigger();
     }
   }));
 }
 
 /**
- * Creates a custom Vue `ref` synchronized with `sessionStorage`.
+ * Generates a custom Vue `ref` that reads and writes data to `sessionStorage`, enabling persistent reactive state across page reloads.
  *
- * @summary This function generates a custom Vue `ref` that reads and writes
- * data to `sessionStorage`, allowing reactive state to persist across page reloads.
- *
+ * @template T - The type of the value stored in the ref.
  * @param key - The key under which the value will be stored in `sessionStorage`.
- * @param value - The default value to return if no entry is found in `sessionStorage`.
- * @returns {Ref<T>} A Vue `ref` object synchronized with `sessionStorage`.
+ * @param defaultValue - The default value to return if no entry is found in `sessionStorage`.
+ * @returns A Vue `ref` object synchronized with `sessionStorage`.
  *
  * @example
- * // Create a ref synchronized with sessionStorage
- * const username = localRef<string>('username', 'Guest');
- * // Reading the value (reactive)
- * console.log(username.value); // 'Guest' (or the saved value in sessionStorage)
+ * const username = useSessionStorageRef<string>('username', 'Guest');
+ * // Accessing the value (reactive)
+ * console.log(username.value);
  * // Updating the value
- * username.value = 'Alice'; // Saves 'Alice' to sessionStorage under the key 'username'
+ * username.value = 'Alice';
  * // Removing the value
- * username.value = undefined; // Removes the key 'username' from sessionStorage
+ * username.value = undefined;
  */
-export function sessionRef<T = undefined>(key: string, value?: T): Ref<T> {
+export function useSessionStorageRef<T = undefined>(key: string, defaultValue?: T): Ref<T> {
   return customRef<T>((track, trigger) => ({
     get: () => {
       track();
-      const val = sessionStorage.getItem(key);
-      return val ? JSON.parse(val) : value;
+      const storedValue = sessionStorage.getItem(key);
+      return storedValue ? JSON.parse(storedValue) : defaultValue;
     },
-    set: (val) => {
-      val ? sessionStorage.setItem(key, JSON.stringify(val)) : sessionStorage.removeItem(key);
+    set: (newValue) => {
+      if (newValue === undefined) sessionStorage.removeItem(key);
+      else sessionStorage.setItem(key, JSON.stringify(newValue));
       trigger();
     }
   }));
