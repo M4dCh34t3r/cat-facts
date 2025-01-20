@@ -1,7 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router';
 
-import HomeView from '@/views/HomeView.vue';
 import FactsView from '@/views/FactsView.vue';
+import HomeView from '@/views/HomeView.vue';
 
 const routes = [
   {
@@ -28,8 +28,7 @@ const router = createRouter({
 });
 
 router.afterEach((to) => {
-  if (typeof to.meta.title === 'string')
-    document.title = to.meta.title;
+  if (typeof to.meta.title === 'string') document.title = to.meta.title;
 });
 
 export default router;

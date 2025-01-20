@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { storeToRefs } from 'pinia';
 import { useOverlayStore } from '@/stores';
+import { storeToRefs } from 'pinia';
 import TbrWindow from '../toolbars/TbrWindow.vue';
 
 const overlayStore = useOverlayStore();

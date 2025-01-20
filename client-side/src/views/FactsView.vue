@@ -1,15 +1,15 @@
 <script setup lang="ts">
+import BtnDislike from '@/components/buttons/BtnDislike.vue';
+import BtnLike from '@/components/buttons/BtnLike.vue';
+import { FactOrder } from '@/enums';
+import { assertType } from '@/helpers/typeAssertHelper';
 import { useConfigStore } from '@/stores';
+import type { APIFact, Paginated } from '@/typings';
+import { enumToObject } from '@/utils/enumUtil';
+import { useLocalStorageRef } from '@/utils/refUtil';
+import { HttpStatusCode, type AxiosInstance } from 'axios';
 import { storeToRefs } from 'pinia';
 import { inject, onMounted, ref, watch } from 'vue';
-import { enumToObject } from '@/utils/enumUtil';
-import { FactOrder } from '@/enums';
-import type { APIFact, Paginated } from '@/typings';
-import { HttpStatusCode, type AxiosInstance } from 'axios';
-import { assertType } from '@/helpers/typeAssertHelper';
-import BtnLike from '@/components/buttons/BtnLike.vue';
-import BtnDislike from '@/components/buttons/BtnDislike.vue';
-import { useLocalStorageRef } from '@/utils/refUtil';
 
 const acpOrderItems = enumToObject(FactOrder);
 /// GUARANTEE: the 'axios' dependency is provided by the axios plugin
@@ -77,9 +77,7 @@ onMounted(() => {
 });
 
 watch([acpOrder, pgnApiFacts, ckbDescending], ([valAcpOrder]) =>
-  typeof valAcpOrder === 'number'
-    ? updateJsonApiFacts()
-    : jsonApiFacts.value = undefined
+  typeof valAcpOrder === 'number' ? updateJsonApiFacts() : (jsonApiFacts.value = undefined)
 );
 </script>
 

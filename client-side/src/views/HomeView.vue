@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import DivHomeMessages from '@/components/divs/DivHomeMessages.vue';
 import { useConfigStore } from '@/stores';
 import { storeToRefs } from 'pinia';
 import { onBeforeUnmount, onMounted, ref } from 'vue';
-import DivHomeMessages from '@/components/divs/DivHomeMessages.vue';
 
 const imgSlideInterval = 5000;
 const imgSlideSrc = [

@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import homemessages from '@/assets/homemessages.json';
 import { useConfigStore } from '@/stores';
 import { storeToRefs } from 'pinia';
-import homemessages from '@/assets/homemessages.json';
 
 const { inDarkMode } = storeToRefs(useConfigStore());
 </script>
@@ -36,6 +36,6 @@ const { inDarkMode } = storeToRefs(useConfigStore());
         v-model="inDarkMode"
       />
     </v-card>
-    <v-btn text="check facts" class="px-16" color="info" to="/Facts"/>
+    <v-btn text="check facts" class="px-16" color="info" to="/Facts" />
   </div>
 </template>

@@ -1,12 +1,9 @@
 /**
- * Converts a TypeScript enum into an array of objects containing numeric values and their corresponding enum.
- *
- * @summary This function processes a TypeScript enum and extracts numeric values,
- * returning them as an array of objects with the original enum reference and the value.
- *
- * @template T - A generic type extending an object, expected to be a TypeScript enum.
- * @param {T} e - The TypeScript enum to convert.
- * @returns {{ key: string; value: number }[]} An array of objects containing the enum reference and numeric values.
+ * Converts a TypeScript enum into an array of objects, each object contains a enum key and its corresponding value.
+
+ * @template T - The type of the enum.
+ * @param enumObj - The TypeScript enum to convert.
+ * @returns An array of objects, each containing a 'key' and 'value' property.
  *
  * @example
  * enum ExampleEnum {
@@ -14,8 +11,10 @@
  *   B = 2,
  *   C = 3
  * }
- * const result = enumToObject(ExampleEnum);
- * console.log(result);
+ * 
+ * const enumObjects = enumToObject(ExampleEnum);
+ * 
+ * console.log(enumObjects);
  * // Output:
  * // [
  * //   { key: 'A', value: 1 },
